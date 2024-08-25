@@ -17,7 +17,7 @@ config({path: './Config/.env'})
 mongoose.connect(process.env.MONGO_URI).then(console.log("MongoDb Connected"))
 
 app.use(cors({
-    origin: "http://localhost:3000/",
+    origin: "http://localhost:3000",
     methods: ["GET","POST","PUT","DELETE"],
     credentials: true
 }))

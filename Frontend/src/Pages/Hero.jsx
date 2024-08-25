@@ -8,7 +8,7 @@ import { Context } from '../main'
 const Hero = () => {
   const {isAuthenticated} = useContext(Context)
 
-  if(!isAuthenticated) return <Navigate to={'/signin'}/>
+  if(!isAuthenticated) return <Navigate to={'/signin'}/> 
 
   return (
     <div className='bg-slate-50 min-h-screen'>
