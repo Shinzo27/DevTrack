@@ -4,8 +4,6 @@ import { Context } from "../main";
 import { Link } from "react-router-dom";
 
 const ProjectAbout = ({ projectId }) => {
-  const { isAuthenticated, user, setIsAuthenticated, setUser } =
-    useContext(Context);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState("");

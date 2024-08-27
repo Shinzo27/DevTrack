@@ -10,7 +10,6 @@ const AddProject = () => {
     const [ startDate, setStartDate ] = useState("")
     const [ endDate, setEndDate ] = useState("")
     const navigateTo = useNavigate()
-    const { isAuthenticated, user} = useContext(Context)
 
     const addProject = async(e) => {
       e.preventDefault()
@@ -20,9 +19,6 @@ const AddProject = () => {
         navigateTo('/')
       }
     }
-    // const {isAuthenticated} = useContext(Context)
-  
-    // if(!isAuthenticated) return <Navigate to={'/signin'}/>
 
   return (
     <div className="min-h-screen flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8">

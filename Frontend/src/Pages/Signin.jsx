@@ -5,7 +5,6 @@ import axios from "axios";
 import { Navigate, useNavigate } from "react-router-dom";
 
 const Signin = () => {
-  const { isAuthenticated, setIsAuthenticated, user, setUser } = useContext(Context)
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

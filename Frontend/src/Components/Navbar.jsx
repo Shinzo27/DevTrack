@@ -11,22 +11,7 @@ const Navbar = () => {
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
-  const { isAuthenticated, user, setIsAuthenticated, setUser } = useContext(Context)
   const navigateTo = useNavigate()
-
-  const handleLogout = async() => {
-    try {
-      const { data } = await axios.get('http://localhost:8000/api/v1/user/logout', {withCredentials: true})
-      if(data.success) {
-        setIsAuthenticated(false)
-        setUser({})
-        toast.success("User Logged Out")
-        navigateTo('/signin')
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
   return (
     <div>
