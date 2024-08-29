@@ -1,7 +1,28 @@
 import React from "react";
 import Button from "../Components/Shared/Button";
+import { Link } from "react-router-dom";
 
 const Signup = () => {
+  const { login } = useContext(Context)
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const navigateTo = useNavigate()
+
+  const signupHandler = async(e) => {
+    e.preventDefault()
+    try {
+      const { data } = await axios.post("http://localhost:8000/api/v1/user/signup", { name, email, password }, {withCredentials: true})
+      if(data.success) {
+        const { user, token } = data
+        login(user, token)
+        toast.success(data.message)
+        navigateTo('/')
+      }
+    } catch (error) {
+      toast.error(error)
+    }
+  }
+
   return (
     <div className="min-h-screen flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full bg-white px-6 py-8 border-2 shadow-lg rounded-lg">
@@ -63,15 +84,15 @@ const Signup = () => {
               Sign Up
             </button>
           </div>
-          <div className="text-center text-sm text-gray-600">
-            Already logged in?{" "}
-            <button
-              className="font-medium text-gray-600 hover:text-indigo-500"
-            >
-              Signin
-            </button>
-          </div>
         </form>
+        <div className="text-center text-sm text-gray-600 pt-4">
+          Already logged in?{" "}
+          <Link
+            className="font-medium text-gray-600 hover:text-indigo-500" to={'/signin'}
+          >
+            Signin
+          </Link>
+        </div>
       </div>
     </div>
   );

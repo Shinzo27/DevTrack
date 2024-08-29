@@ -10,9 +10,22 @@ import ProjectDetail from "./Pages/ProjectDetail"
 import AddUser from "./Pages/AddUser"
 import AddTask from "./Pages/AddTask"
 import AddProject from "./Pages/AddProject"
+import { useContext, useEffect } from "react"
+import axios from "axios"
+import { Context } from "./main"
 
 function App() {
+  const { auth } = useContext(Context)
   
+  const getUserInfo = async() => {
+    const { data } = await axios.get('http://localhost:8000/api/v1/user/getUserInfo', {withCredentials: true})
+    console.log(data);
+  }
+
+  useEffect(() => {
+    getUserInfo()
+  }, [])
+
   return (
     <>
       <BrowserRouter>

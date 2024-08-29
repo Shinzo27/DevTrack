@@ -2,51 +2,28 @@ import React, { useState, useContext } from "react";
 import { Context } from "../main";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 const Signin = () => {
-
+  const { login } = useContext(Context)
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const navigateTo = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    const fetchUser = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:8000/api/v1/user/me",
-          {
-            withCredentials: true,
-          }
-        );
-        setIsAuthenticated(true);
-        setUser(response.data.user);
-      } catch (error) {
-        console.log(error);
-      }
-    };
     try {
-      const { data } = await axios.post(
-        "http://localhost:8000/api/v1/user/signin",
-        { email, password },
-        {
-          withCredentials: true,
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-      if (data.success) {
-        fetchUser()
-        navigateTo("/");
-        toast.success("User loggedin!");
+      const { data } = await axios.post('http://localhost:8000/api/v1/user/signin',{email, password}, {withCredentials: true})
+      if(data.success) {
+        const { user, token } = data
+        login(user, token)
+        toast.success(data.message)
+        navigateTo('/')
       }
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error.response.data.message)
     }
   };
-
-  if(isAuthenticated) return <Navigate to={'/'}/>
 
   return (
     <div className="min-h-screen flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8">
@@ -112,13 +89,13 @@ const Signin = () => {
               Sign In
             </button>
           </div>
-          <div className="text-center text-sm text-gray-600">
-            Not logged in?{" "}
-            <button className="font-medium text-gray-600 hover:text-indigo-500">
-              Signup
-            </button>
-          </div>
         </form>
+        <div className="text-center text-sm text-gray-600 pt-4">
+          Not logged in?{" "}
+          <Link className="font-medium text-gray-600 hover:text-indigo-500" to={'/signup'}>
+            Signup
+          </Link>
+        </div>
       </div>
     </div>
   );

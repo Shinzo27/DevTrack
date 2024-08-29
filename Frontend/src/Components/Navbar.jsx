@@ -12,7 +12,8 @@ const Navbar = () => {
     setIsOpen(!isOpen);
   };
   const navigateTo = useNavigate()
-
+  const isAuthenticated = false;
+  
   return (
     <div>
       <div className="w-full h-16 bg-black text-white font-bold flex justify-around items-center px-4">

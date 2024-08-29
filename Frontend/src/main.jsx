@@ -6,7 +6,7 @@ import './index.css'
 export const Context = createContext()
 
 const AppWrapper = () =>{
-  const [auth, setAuth] = useState({
+  const [auth, setAuth] = useState({      
     isAuthenticated: false,
     user: null,
     token: null
