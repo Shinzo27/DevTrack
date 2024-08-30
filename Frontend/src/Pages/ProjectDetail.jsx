@@ -3,6 +3,8 @@ import ProjectAbout from "../Components/ProjectAbout";
 import Tasks from "../Components/Tasks";
 import TeamMembers from "../Components/TeamMembers";
 import { useParams } from 'react-router-dom'
+import AddFiles from "../Components/AddFiles";
+import Comments from "../Components/Comments";
 
 const ProjectDetail = () => {
   const { id } = useParams()
@@ -15,6 +17,8 @@ const ProjectDetail = () => {
           <ProjectAbout projectId={id}/>
           <Tasks projectId={id}/>
           <TeamMembers projectId={id}/>
+          <AddFiles projectId={id}/>
+          <Comments projectId={id}/>
         </div>
       </div>
     </div>
