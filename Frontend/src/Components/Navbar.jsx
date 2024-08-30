@@ -12,7 +12,7 @@ const Navbar = () => {
     setIsOpen(!isOpen);
   };
   const navigateTo = useNavigate()
-  const isAuthenticated = false;
+  const {auth} = useContext(Context)
   
   return (
     <div>
@@ -21,10 +21,10 @@ const Navbar = () => {
         <div className="sm:flex hidden gap-4">
             <div className="flex items-center justify-center gap-4">
               { 
-                isAuthenticated ? (
+                auth.isAuthenticated ? (
                   <div className="flex items-center justify-center gap-4">
-                    <Link type="button" className="p-2 rounded-lg bg-white text-black">{ user.name }</Link>
-                    <button onClick={handleLogout} className="p-2 rounded-lg bg-white text-black">Logout</button>
+                    <Link type="button" className="p-2 rounded-lg bg-white text-black">{ auth.user.name }</Link>
+                    <button className="p-2 rounded-lg bg-white text-black">Logout</button>
                   </div>
                 ) : (
                   <Link type="button" className="p-2 rounded-lg bg-white text-black">Login</Link>

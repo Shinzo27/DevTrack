@@ -20,6 +20,7 @@ function App() {
   const getUserInfo = async() => {
     const { data } = await axios.get('http://localhost:8000/api/v1/user/getUserInfo', {withCredentials: true})
     console.log(data);
+    console.log(auth.user);
   }
 
   useEffect(() => {
