@@ -2,25 +2,42 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import socketIOClient from "socket.io-client";
 
+const ENDPOINT = 'http://localhost:8000'
 
 const Tasks = ({projectId}) => {
   const [ tasks, setTasks ] = useState([])
   const navigateTo = useNavigate();
+  const socket = socketIOClient(ENDPOINT)
 
   useEffect(()=>{
     const getTasks = async() => {
-      const { data } = await axios.get(`http://localhost:8000/api/v1/task/getTasks/${projectId}`, {withCredentials: true})
-      setTasks(data.tasks)
-      console.log(data)
+      try {
+        const { data } = await axios.get(`http://localhost:8000/api/v1/task/getTasks/${projectId}`, {withCredentials: true})
+        setTasks(data.tasks)
+
+        socket.on('taskStatusUpdated', (updatedTask) => {
+          setTasks(prevTasks => 
+            prevTasks.map(task => task._id === updatedTask._id ? updatedTask : task))
+        })
+
+        return () => socket.disconnect(); 
+      } catch (error) {
+        console.log(error);
+      }
     }
     getTasks()
   },[])
 
   const updateTaskStatus = async(taskId, status) => {
-    const { data } = await axios.put(`http://localhost:8000/api/v1/task/updateTaskStatus/${projectId}/tasks/${taskId}`, {status}, {withCredentials: true})
-    toast.success(data.message)
-    navigateTo(`/projectDetail/${projectId}`)
+    try {
+      const { data } = await axios.put(`http://localhost:8000/api/v1/task/updateTaskStatus/${projectId}/tasks/${taskId}`, {status}, {withCredentials: true})
+      toast.success(data.message)
+      navigateTo(`/projectDetail/${projectId}`)
+    } catch (error) {
+      console.log(error.response.data);
+    }
   }
 
   return (

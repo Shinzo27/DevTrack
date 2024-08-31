@@ -72,15 +72,21 @@ export const updateTaskStatus = async(req,res,next) => {
     if(!validStatus.includes(status)) {
         return next(new ErrorHandler("Invalid Status!"))
     }
+    try {
+        const task = await Task.findOneAndUpdate({ _id: taskId}, {
+            status
+        }, { new: true })
+    
+        if(!task) return next(new ErrorHandler("Task not found", 400))
 
-    const task = await Task.findOneAndUpdate({ _id: taskId}, {
-        status
-    }, { new: true })
-
-    if(!task) return next(new ErrorHandler("Task not found", 400))
-
-    return res.status(200).json({
-        success: true,
-        message: "Task updated successfully!"
-    })
+        req.io.emit('taskStatusUpdated', task)
+    
+        return res.status(200).json({
+            success: true,
+            message: "Task updated successfully!",
+            task
+        })
+    } catch (error) {
+        return next(new ErrorHandler("Something went wrong!", 400))
+    }
 }

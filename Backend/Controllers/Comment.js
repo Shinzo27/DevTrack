@@ -20,16 +20,21 @@ export const addComments = async (req,res,next) => {
     const parsedBody = commentParser.safeParse(bodyParser)
     if(parsedBody.error) return next(new ErrorHandler("Provide valid details!", 400));
 
-    const addComment = await Comment.create({
+    const addComment = new Comment({
         content: parsedBody.data.comment,
         user: parsedBody.data.userId,
         project: parsedBody.data.projectId
     })
 
+    const savedComment = await addComment.save();
+
+    const populatedComment = await Comment.findById(savedComment._id).populate('user').exec()
+
     if(addComment) {
         return res.status(200).json({
             success: true,
-            message: "Comment added successfully!"
+            message: "Comment added successfully!",
+            comment: populatedComment
         })
     } else {
         next(new ErrorHandler("Something went wrong!", 400))

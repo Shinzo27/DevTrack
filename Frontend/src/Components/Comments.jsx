@@ -1,18 +1,46 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Context } from '../main'
 import axios from 'axios'
+import io from 'socket.io-client'
+import { Context } from '../main'
+import { toast } from 'react-toastify'
+
+const ENDPOINT = 'http://localhost:8000'
 
 const Comments = ({projectId}) => {
   const [comments, setComments] = useState([]);
+  const [comment, setComment] = useState('')
+  const {auth} = useContext(Context)
+  const userId = auth?.user?.id
+  const socket = io(ENDPOINT)
 
   useEffect(() => {
     const getComments = async () => {
       const { data } = await axios.get(`http://localhost:8000/api/v1/comment/getComments/${projectId}`, {withCredentials: true})
-      console.log(data);
       setComments(data.comments)
+
+      socket.on('newComment', (comment) => {
+        console.log(comment);
+        setComments(prevComments => [...prevComments, comment]);
+      })
+
+      return () => socket.off('newComment')
     }
     getComments()
-  },[])
+  },[projectId])
+
+  const addComment = async(e) => {
+    e.preventDefault()
+    try {
+      const { data } = await axios.post(`http://localhost:8000/api/v1/comment/addComment`, {comment, userId, projectId}, {withCredentials: true})
+      console.log(data);
+      socket.emit('newComment', data.comment)
+      toast.success(data.message)
+      setComment('')
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <div className="flex-1 bg-white p-6 mt-8 rounded-xl shadow-lg max-w-4xl mx-auto mb-5">
       <div className='flex justify-between items-center'>
@@ -22,12 +50,14 @@ const Comments = ({projectId}) => {
         </div>
       </div>
       <div className='flex justify-between items-center'>
-        <div>
-            <input type='text' placeholder='Enter your comment' className='border rounded-md p-2 outline-none' />
-        </div>
-        <div>
-          <button className="bg-black text-white py-2 px-4 rounded">Add Comment</button>
-        </div>
+        <form method='post' onSubmit={addComment}>
+          <div>
+              <input type='text' placeholder='Enter your comment' className='border rounded-md p-2 outline-none' onChange={(e)=>setComment(e.target.value)}/>
+          </div>
+          <div>
+            <button value={comment} className="bg-black text-white py-2 px-4 rounded">Add Comment</button>
+          </div>
+        </form>
       </div>
       <div className="">
         <div className="flex flex-col pt-3">
@@ -43,12 +73,6 @@ const Comments = ({projectId}) => {
               </div>
             ))
           }
-          {/* <div className="text-center sm:text-left">
-            <h3 className="font-semibold">Shinzo27</h3>
-          </div>
-          <div className="flex items-center justify-center sm:justify-start mt-2 sm:mt-0">
-            <span className="ml-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit numquam commodi architecto, est deleniti tempora magnam eos rerum! Quia sed temporibus eum ducimus adipisci, saepe voluptatem quasi provident ex numquam!</span>
-          </div> */}
         </div>
       </div>
     </div>
