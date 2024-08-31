@@ -67,7 +67,7 @@ export const updateTaskStatus = async(req,res,next) => {
     const { projectId, taskId } = req.params
     const { status } = req.body
 
-    const validStatus = ['todo','in-progress','done']
+    const validStatus = ['Todo','In-Progress','Done']
 
     if(!validStatus.includes(status)) {
         return next(new ErrorHandler("Invalid Status!"))

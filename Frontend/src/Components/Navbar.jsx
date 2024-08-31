@@ -12,7 +12,15 @@ const Navbar = () => {
     setIsOpen(!isOpen);
   };
   const navigateTo = useNavigate()
-  const {auth} = useContext(Context)
+  const {auth, logout} = useContext(Context)
+  const logoutHandler = async() => {
+    const { data } = await axios.get('http://localhost:8000/api/v1/user/logout', {withCredentials: true}) 
+    if(data.success){
+      logout();
+      toast.success('Logged out successfully!')
+      navigateTo('/signin')
+    }
+  }
   
   return (
     <div>
@@ -24,13 +32,12 @@ const Navbar = () => {
                 auth.isAuthenticated ? (
                   <div className="flex items-center justify-center gap-4">
                     <Link type="button" className="p-2 rounded-lg bg-white text-black">{ auth.user.name }</Link>
-                    <button className="p-2 rounded-lg bg-white text-black">Logout</button>
+                    <button onClick={logoutHandler} className="p-2 rounded-lg bg-white text-black">Logout</button>
                   </div>
                 ) : (
-                  <Link type="button" className="p-2 rounded-lg bg-white text-black">Login</Link>
+                  <Link type="button" className="p-2 rounded-lg bg-white text-black" to={'/signin'}>Login</Link>
                 )
               }
-              
             </div>
         </div>
         <div className="text-2xl sm:hidden">
