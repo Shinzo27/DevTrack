@@ -21,8 +21,8 @@ const ProjectDetail = () => {
           <ProjectAbout projectId={id}/>
           <Tasks projectId={id}/>
           <TeamMembers projectId={id}/>
-          <AddFiles projectId={id}/>
           <Comments projectId={id}/>
+          <AddFiles projectId={id}/>
         </div>
       </div>
     </div>
