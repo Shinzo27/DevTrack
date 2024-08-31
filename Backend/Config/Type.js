@@ -44,3 +44,9 @@ export const taskParser = z.object({
     assignedTo: z.string().min(1),
     projectId: z.string().min(1),
 })
+
+export const commentParser = z.object({
+    comment: z.string().min(1),
+    userId: z.string().min(1),
+    projectId: z.string().min(1)
+})

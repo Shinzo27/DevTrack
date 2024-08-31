@@ -11,10 +11,6 @@ const commentSchema = new Schema({
     ref: "User",
     required: true,
   },
-  task: {
-    type: Schema.Types.ObjectId,
-    ref: "Task",
-  },
   project: {
     type: Schema.Types.ObjectId,
     ref: "Project",
