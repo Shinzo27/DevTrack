@@ -75,8 +75,8 @@ export const updateTaskStatus = async(req,res,next) => {
     try {
         const task = await Task.findOneAndUpdate({ _id: taskId}, {
             status
-        }, { new: true })
-    
+        }, { new: true, populate: 'assignedTo' })
+
         if(!task) return next(new ErrorHandler("Task not found", 400))
 
         req.io.emit('taskStatusUpdated', task)

@@ -34,6 +34,7 @@ const Tasks = ({projectId}) => {
     try {
       const { data } = await axios.put(`http://localhost:8000/api/v1/task/updateTaskStatus/${projectId}/tasks/${taskId}`, {status}, {withCredentials: true})
       toast.success(data.message)
+      console.log(tasks);
       navigateTo(`/projectDetail/${projectId}`)
     } catch (error) {
       console.log(error.response.data);
