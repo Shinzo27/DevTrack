@@ -1,16 +1,14 @@
-version: '3.8'
-
 services:
   backend:
     build: ./Backend
     ports:
       - 8000:8000
-    volumes:
-      - ./Backend:/app
+    environment:
+      - NODE_ENV=development
   
   frontend:
     build: ./Frontend
     ports:
-      - 3000:3000
-    volumes:
-      - ./Frontend:/app
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
