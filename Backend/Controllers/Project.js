@@ -5,6 +5,7 @@ import Project from "../Models/Project.js";
 import User from "../Models/User.js";
 import nodemailer from 'nodemailer'
 import mongoose from "mongoose";
+import Task from "../Models/Task.js";
 
 export const getProjects = async (req, res, next) => {
     const userId = req.user.id
@@ -299,3 +300,27 @@ export const getUsersRole = async(req,res,next) => {
         res.status(500).json({ message: 'Server error', error });
       }
 } 
+
+export const markAsCompleted = async(req,res,next) => {
+    const projectId = req.params.projectId
+    
+    const checkTasks = await Task.find({projectId, status: {$ne: 'Done'}})
+    if(checkTasks.length !== 0) {
+        return res.status(400).json({
+            success: false,
+            message: "Cannot mark as completed, there are still tasks in progress!"
+        })
+    } else {
+        const updateProject = await Project.findOneAndUpdate({_id: projectId}, {
+            status: 'Done'
+        })
+        if(updateProject) {
+            return res.status(200).json({
+                success: true,
+                message: "Project marked as completed!"
+            })
+        } else {
+            return next(new ErrorHandler("Something went wrong!",400))
+        }
+    }
+}

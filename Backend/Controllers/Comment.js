@@ -12,7 +12,6 @@ export const getComments = async (req,res,next) => {
         success: true,
         comments: comments
     })
-
 }
 
 export const addComments = async (req,res,next) => {

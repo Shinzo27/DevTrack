@@ -1,9 +1,11 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../main";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const ProjectAbout = ({ projectId }) => {
+  const navigateTo = useNavigate();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState("");
@@ -31,6 +33,22 @@ const ProjectAbout = ({ projectId }) => {
     fetchDetails();
   }, []);
 
+  const handleMarkAsCompleted = async () => {
+    try {
+      const { data } = await axios.get(
+        `http://localhost:8000/api/v1/project/markAsCompleted/${projectId}`,
+        { withCredentials: true }
+      );
+      if (data.success === true) {
+        setStatus("Done");
+        toast.success(data.message);
+        navigateTo('/')
+      }  
+    } catch (error) {
+      toast.error(error.response.data.message)
+    }
+  };
+
   return (
     <>
       <div className="flex justify-around items-center mb-4">
@@ -51,6 +69,9 @@ const ProjectAbout = ({ projectId }) => {
                 <Link to={`/addTask/${projectId}`}>
                 Add Task
                 </Link>
+              </button>
+              <button className="bg-black text-white px-4 py-2 rounded-lg" onClick={handleMarkAsCompleted}>
+                Mark as Completed
               </button>
               </>
             ) : null
