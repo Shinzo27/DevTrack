@@ -101,21 +101,20 @@ export const userDetails = (req, res, next) => {
 export const getStats = async (req, res, next) => {
   const project = await User.findById(req.user.id).populate("projects");
 
-  const tasks = await Task.find({ assignedTo: req.user.id });
-
+  const tasks = await Task.find({ assignedTo: req.user.id }).countDocuments();
+  const totalDeadline = await Task.find({assignedTo: req.user.id, status: {$ne: 'Done'}}).countDocuments();
+  
   const totalProjects = project.projects.length;
-  const totalTasks = tasks.length;
   const ObjectId = new mongoose.Types.ObjectId(req.user.id)
 
-
-  const completedProject = await Project.find({'users.id': ObjectId, status: 'Finished'}).exec();
+  const completedProject = await Project.find({'users.id': ObjectId, status: 'Done'}).exec();
   const completedProjectLength = completedProject.length
 
   return res.status(200).json({
     success: true,
     totalProjects: totalProjects,
-    totalTasks: totalTasks,
+    totalTasks: tasks,
     completedProject: completedProjectLength,
-    deadline: totalTasks
+    deadline: totalDeadline
   });
 };

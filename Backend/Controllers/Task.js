@@ -17,7 +17,8 @@ export const getTasks = async (req,res,next)=>{
 
 export const getTasksOfUser = async(req,res,next)=>{
     const tasks = await Task.find({
-        assignedTo: req.user.id
+        assignedTo: req.user.id,
+        status: {$ne: 'Done'}
     })
 
     return res.status(200).json({

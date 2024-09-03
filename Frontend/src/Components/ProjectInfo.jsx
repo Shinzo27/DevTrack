@@ -22,7 +22,7 @@ const ProjectInfo = () => {
         {/* Tasks Section */}
         <div className="flex-1 bg-white p-6 rounded-xl shadow-sm">
           <h2 className="text-2xl font-bold mb-2">Tasks</h2>
-          <p className="text-gray-400 mb-4">View and manage tasks</p>
+          <p className="text-gray-400 mb-4">View pending tasks</p>
           {
             slicedTask.map((task, index)=>(
               <div className="space-y-4" key={index}>
