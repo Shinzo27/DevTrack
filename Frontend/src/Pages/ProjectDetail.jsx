@@ -11,7 +11,7 @@ const ProjectDetail = () => {
   const { id } = useParams()
   const { auth } = useContext(Context)
   
-  // if(!auth.isAuthenticated) return <Navigate to={'/signin'} /> 
+  if(!auth.isAuthenticated) return <Navigate to={'/signin'} />  
 
   return (
     <div className="pt-7 min-h-screen">

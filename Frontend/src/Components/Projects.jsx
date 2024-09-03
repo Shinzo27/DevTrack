@@ -46,14 +46,14 @@ const Projects = () => {
                 <div>End Date</div>
                 <div>{project.projectId.deadline}</div>
               </div>
-              <div className="mt-3 p-1 rounded-md w-fit bg-gray-100">
-                {project.Status}
+              <div className="mt-3 p-1 rounded-md w-fit bg-gray-300">
+                {project.projectId.status}
               </div>
               <div className="mt-3 p-1 rounded-md w-fit bg-gray-100">
                 {project.role}
               </div>
               <div className="pt-3 lg:hidden md:hidden">
-                <Button title={"View Project"} bgColor={"Black"} fontColor={"White"}/>
+              <button className="p-2 rounded-lg text-white bg-black"><Link to={`/projectDetail/${project.projectId._id}`}>View Project</Link></button>
               </div>
             </div>
           </div>

@@ -50,7 +50,7 @@ const Comments = ({projectId}) => {
         </div>
       </div>
       <div className='flex justify-between items-center'>
-        <form method='post' onSubmit={addComment}>
+        <form method='post' onSubmit={addComment} className='flex items-center gap-5'>
           <div>
               <input type='text' placeholder='Enter your comment' className='border rounded-md p-2 outline-none' onChange={(e)=>setComment(e.target.value)}/>
           </div>

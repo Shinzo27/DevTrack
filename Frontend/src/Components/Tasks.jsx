@@ -58,7 +58,7 @@ const Tasks = ({projectId}) => {
             <tr key={index}>
               <td className="border px-4 py-2">{task.title}</td>
               <td className="border px-4 py-2">
-                <select value={task.status} onChange={(e)=>updateTaskStatus(task._id,e.target.value)} className="border px-4 py-2">
+                <select value={task.status} onChange={(e)=>updateTaskStatus(task._id,e.target.value)} className="border px-4 py-2" {...{ disabled: task.status === 'Done' }}>
                   <option value="Todo">Todo</option>
                   <option value="In-Progress" >In Progress</option>
                   <option value="Done">Completed</option>
