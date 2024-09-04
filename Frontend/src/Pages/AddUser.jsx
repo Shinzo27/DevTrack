@@ -27,7 +27,7 @@ const AddUser = () => {
     useEffect(()=>{
         const checkRole = async() => {
             const { data } = await axios.get(`http://localhost:8000/api/v1/project/getUsersRole/${id}`, {withCredentials: true})
-            if(data.role === "Team Member") return navigateTo('/dashboad')
+            if(data.role === "Team Member") return navigateTo('/dashboard')
         }
         checkRole()
     })

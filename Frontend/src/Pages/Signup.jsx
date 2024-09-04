@@ -16,7 +16,7 @@ const Signup = () => {
         const { user, token } = data
         login(user, token)
         toast.success(data.message)
-        navigateTo('/dashboad')
+        navigateTo('/dashboard')
       }
     } catch (error) {
       toast.error(error)
