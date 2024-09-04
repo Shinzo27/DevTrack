@@ -13,6 +13,7 @@ import AddProject from "./Pages/AddProject"
 import { useContext, useEffect } from "react"
 import axios from "axios"
 import { Context } from "./main"
+import LandingPage from "./Pages/LandingPage"
 
 function App() {
 
@@ -21,7 +22,8 @@ function App() {
       <BrowserRouter>
       <Navbar/>
         <Routes>
-          <Route element={<Hero/>} path="/"/>
+          <Route element={<LandingPage/>} path="/"/>
+          <Route element={<Hero/>} path="/dashboard"/>
           <Route element={<Signup/>} path="/signup"/>
           <Route element={<Signin/>} path="/signin"/>
           <Route element={<ProjectDetail/>} path="/projectDetail/:id"/>

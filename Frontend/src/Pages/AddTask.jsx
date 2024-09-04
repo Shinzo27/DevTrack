@@ -32,7 +32,7 @@ const AddTask = () => {
         `http://localhost:8000/api/v1/project/getUsersRole/${id}`,
         { withCredentials: true }
       );
-      data.role === "Team Member" ? navigateTo("/") : null;
+      data.role === "Team Member" ? navigateTo("/dashboard") : null;
     };
     const getUsers = async () => {
       const { data } = await axios.get(

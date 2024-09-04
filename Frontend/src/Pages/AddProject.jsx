@@ -16,7 +16,7 @@ const AddProject = () => {
       const { data } = await axios.post('http://localhost:8000/api/v1/project/createProject', {title, description, startDate, deadline: endDate, users: { id: user._id, role: 'Product Manager'}}, {withCredentials: true})
       if(data.success) {
         toast.success(data.message)
-        navigateTo('/')
+        navigateTo('/dashboad')
       }
     }
 

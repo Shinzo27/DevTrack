@@ -42,7 +42,7 @@ const ProjectAbout = ({ projectId }) => {
       if (data.success === true) {
         setStatus("Done");
         toast.success(data.message);
-        navigateTo('/')
+        navigateTo('/dashboad')
       }  
     } catch (error) {
       toast.error(error.response.data.message)

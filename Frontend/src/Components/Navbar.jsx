@@ -25,7 +25,7 @@ const Navbar = () => {
   return (
     <div>
       <div className="w-full h-16 bg-black text-white font-bold flex justify-around items-center px-4">
-        <div className="md:text-2xl text-xl"><Link to={'/'}>Project Management Tool</Link></div>
+        <div className="md:text-2xl text-xl"><Link to={'/dashboad'}>Project Management Tool</Link></div>
         <div className="sm:flex hidden gap-4">
             <div className="flex items-center justify-center gap-4">
               { 
