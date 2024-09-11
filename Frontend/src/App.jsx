@@ -1,7 +1,7 @@
 import Footer from "./Components/Footer"
 import Navbar from "./Components/Navbar"
 import Hero from "./Pages/Hero"
-import {BrowserRouter, Outlet, Route, Router, Routes} from 'react-router-dom'
+import {BrowserRouter, Outlet, Route, Routes} from 'react-router-dom'
 import Signup from "./Pages/Signup"
 import Signin from "./Pages/Signin"
 import { ToastContainer } from 'react-toastify'
@@ -10,9 +10,6 @@ import ProjectDetail from "./Pages/ProjectDetail"
 import AddUser from "./Pages/AddUser"
 import AddTask from "./Pages/AddTask"
 import AddProject from "./Pages/AddProject"
-import { useContext, useEffect } from "react"
-import axios from "axios"
-import { Context } from "./main"
 import LandingPage from "./Pages/LandingPage"
 
 function BasicLayout(){

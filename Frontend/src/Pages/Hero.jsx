@@ -6,10 +6,6 @@ import { Navigate, useNavigate } from 'react-router-dom'
 import { Context } from '../main'
 
 const Hero = () => {
-  const {auth} = useContext(Context)
-
-  if(!auth.isAuthenticated) return <Navigate to='/signin'/>
-
   return (
     <div className='bg-slate-50 min-h-screen'>
         <Stats/>
