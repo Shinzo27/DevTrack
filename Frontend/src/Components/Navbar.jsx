@@ -1,10 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "./Shared/Button";
 import { TiThMenuOutline } from "react-icons/ti";
-import { Context } from '../main'
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useRecoilState } from "recoil";
+import { authState } from "@/State/atom";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,13 +13,19 @@ const Navbar = () => {
     setIsOpen(!isOpen);
   };
   const navigateTo = useNavigate()
-  const {auth, logout} = useContext(Context)
+  const [auth, setAuth] = useRecoilState(authState)
+
   const logoutHandler = async() => {
-    const { data } = await axios.get('http://localhost:8000/api/v1/user/logout', {withCredentials: true}) 
+    const { data } = await axios.get('http://localhost:8000/api/v1/user/logout', {withCredentials: true})
     if(data.success){
-      logout();
+      setAuth({
+        token: null,
+        isAuthenticated: false,
+        user: null,
+      })
+      localStorage.removeItem('token')
       toast.success('Logged out successfully!')
-      navigateTo('/signin')
+      navigateTo('/')
     }
   }
   
@@ -31,7 +38,7 @@ const Navbar = () => {
               { 
                 auth.isAuthenticated ? (
                   <div className="flex items-center justify-center gap-4">
-                    <Link type="button" className="p-2 rounded-lg bg-white text-black">{ auth.user.name }</Link>
+                    <Link type="button" className="p-2 rounded-lg bg-white text-black">{ auth.user.user.name }</Link>
                     <button onClick={logoutHandler} className="p-2 rounded-lg bg-white text-black">Logout</button>
                   </div>
                 ) : (

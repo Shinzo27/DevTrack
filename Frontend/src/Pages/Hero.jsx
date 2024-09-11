@@ -1,9 +1,7 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import Stats from '../Components/Stats'
 import ProjectInfo from '../Components/ProjectInfo'
 import Projects from '../Components/Projects'
-import { Navigate, useNavigate } from 'react-router-dom'
-import { Context } from '../main'
 
 const Hero = () => {
   return (

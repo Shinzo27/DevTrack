@@ -1,16 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
 import io from 'socket.io-client'
-import { Context } from '../main'
 import { toast } from 'react-toastify'
+import { useRecoilValue } from 'recoil'
+import { authState } from '@/State/atom'
 
 const ENDPOINT = 'http://localhost:8000'
 
 const Comments = ({projectId}) => {
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState('')
-  const {auth} = useContext(Context)
-  const userId = auth?.user?.id
+  const auth = useRecoilValue(authState)
+  const userId = auth?.user?._id
   const socket = io(ENDPOINT)
 
   useEffect(() => {

@@ -1,15 +1,16 @@
-import React, { useContext } from "react";
+import React from "react";
 import ProjectAbout from "../Components/ProjectAbout";
 import Tasks from "../Components/Tasks";
 import TeamMembers from "../Components/TeamMembers";
 import { Navigate, useParams } from 'react-router-dom'
 import AddFiles from "../Components/AddFiles";
 import Comments from "../Components/Comments";
-import { Context } from "../main";
+import { useRecoilValue } from "recoil";
+import { authState } from "@/State/atom";
 
 const ProjectDetail = () => {
   const { id } = useParams()
-  const { auth } = useContext(Context)
+  const auth = useRecoilValue(authState)
   
   if(!auth.isAuthenticated) return <Navigate to={'/signin'} />  
 

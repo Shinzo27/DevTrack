@@ -1,11 +1,12 @@
-import React, { useState, useContext } from "react";
-import { Context } from "../main";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { authState } from "@/State/atom";
 
 const Signin = () => {
-  const { login } = useContext(Context)
+  const [ auth, setAuth ] = useRecoilState(authState)
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigateTo = useNavigate();
@@ -16,7 +17,11 @@ const Signin = () => {
       const { data } = await axios.post('http://localhost:8000/api/v1/user/signin',{email, password}, {withCredentials: true})
       if(data.success) {
         const { user, token } = data
-        login(user, token)
+        setAuth({
+          user,
+          token,
+          isAuthenticated: true,
+        })
         toast.success(data.message)
         navigateTo('/dashboard')
       }
