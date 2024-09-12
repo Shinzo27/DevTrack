@@ -48,14 +48,9 @@ app.use('/api/v1/task', taskRouter)
 app.use('/api/v1/comment', commentRouter)
 
 io.on('connection', (socket) => {
-    console.log('a user connected')
     
     socket.on('newComment', (data) => {
         io.emit('newComment', data)
-    })
-
-    socket.on('disconnect', () => {
-        console.log('user disconnected')
     })
 
 })

@@ -16,6 +16,7 @@ export const getComments = async (req,res,next) => {
 
 export const addComments = async (req,res,next) => {
     const bodyParser = req.body;
+    console.log(req.body);
     const parsedBody = commentParser.safeParse(bodyParser)
     if(parsedBody.error) return next(new ErrorHandler("Provide valid details!", 400));
 

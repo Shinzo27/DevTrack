@@ -11,7 +11,7 @@ const Comments = ({projectId}) => {
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState('')
   const auth = useRecoilValue(authState)
-  const userId = auth?.user?._id
+  const userId = auth?.user?.user._id
   const socket = io(ENDPOINT)
 
   useEffect(() => {
@@ -20,7 +20,6 @@ const Comments = ({projectId}) => {
       setComments(data.comments)
 
       socket.on('newComment', (comment) => {
-        console.log(comment);
         setComments(prevComments => [...prevComments, comment]);
       })
 
@@ -33,7 +32,6 @@ const Comments = ({projectId}) => {
     e.preventDefault()
     try {
       const { data } = await axios.post(`http://localhost:8000/api/v1/comment/addComment`, {comment, userId, projectId}, {withCredentials: true})
-      console.log(data);
       socket.emit('newComment', data.comment)
       toast.success(data.message)
       setComment('')

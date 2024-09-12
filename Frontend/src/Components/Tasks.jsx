@@ -41,6 +41,16 @@ const Tasks = ({projectId}) => {
     }
   }
 
+  const deleteTask = async(taskId) => {
+    try {
+      const { data } = await axios.delete(`http://localhost:8000/api/v1/task/deleteTask/${projectId}/tasks/${taskId}`, {withCredentials: true})
+      toast.success(data.message)
+      navigateTo(`/projectDetail/${projectId}`)
+    } catch (error) {
+      console.log(error.response.data);
+    }
+  }
+
   return (
     <div className="bg-white p-4 mt-6 rounded shadow mb-4 overflow-x-auto">
       <h2 className="text-xl font-bold mb-2">Tasks</h2>
@@ -51,6 +61,7 @@ const Tasks = ({projectId}) => {
             <th className="px-4 py-2">Status</th>
             <th className="px-4 py-2">Due Date</th>
             <th className="px-4 py-2">Assignee</th>
+            <th className="px-4 py-2">Delete Task</th>
           </tr>
         </thead>
         <tbody>
@@ -66,6 +77,9 @@ const Tasks = ({projectId}) => {
               </td>
               <td className="border px-4 py-2">{task.deadline}</td>
               <td className="border px-4 py-2">{task.assignedTo.name}</td>
+              <td className="border px-4 py-2">
+                <button className="bg-red-500 text-white py-2 px-4 rounded" onClick={()=>deleteTask(task._id)}>Delete</button>
+              </td>
             </tr>
           ))}
         </tbody>

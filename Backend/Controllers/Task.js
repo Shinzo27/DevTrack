@@ -91,3 +91,32 @@ export const updateTaskStatus = async(req,res,next) => {
         return next(new ErrorHandler("Something went wrong!", 400))
     }
 }
+
+export const deleteTask = async(req,res,next) => {
+    const { projectId, taskId } = req.params
+    console.log(req.params);
+    try {
+        const task = await Task.findOneAndDelete({ _id: taskId })
+
+        if(!task) return next(new ErrorHandler("Task not found", 400))
+
+        const removeFromProject = await Project.findOneAndUpdate({_id: projectId}, {
+            $pull: {
+                tasks: {
+                    id: taskId
+                }
+            }
+        })
+        if(removeFromProject) {
+            return res.status(200).json({
+                success: true,
+                message: "Task deleted successfully!",
+                task
+            })
+        } else {
+            next(new ErrorHandler("Something went wrong", 400))
+        }
+    } catch (error) {
+        return next(new ErrorHandler("Something went wrong", 400))
+    }
+}

@@ -23,7 +23,7 @@ const ProjectDetail = () => {
           <Tasks projectId={id}/>
           <TeamMembers projectId={id}/>
           <Comments projectId={id}/>
-          <AddFiles projectId={id}/>
+          {/* <AddFiles projectId={id}/> */}
         </div>
       </div>
     </div>

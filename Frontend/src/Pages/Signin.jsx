@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { authState } from "@/State/atom";
 
@@ -29,6 +29,8 @@ const Signin = () => {
       toast.error(error.response.data.message)
     }
   };
+
+  if(auth.isAuthenticated) return <Navigate to="/dashboard" />
 
   return (
     <div className="min-h-screen flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8">
