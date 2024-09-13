@@ -10,6 +10,8 @@ import taskRouter from './Routes/Task.js'
 import commentRouter from './Routes/Comment.js'
 import { Server } from 'socket.io'
 import http from 'http'
+import Task from './Models/Task.js'
+import Project from './Models/Project.js'
 
 const app = express()
 const server = http.createServer(app)
@@ -48,11 +50,29 @@ app.use('/api/v1/task', taskRouter)
 app.use('/api/v1/comment', commentRouter)
 
 io.on('connection', (socket) => {
-    
     socket.on('newComment', (data) => {
         io.emit('newComment', data)
     })
 
+    socket.on('deleteTask', async(data) => {
+        const { projectId, taskId } = data; 
+    
+        const task = await Task.findOneAndDelete({_id: taskId})
+
+        const removeFromProject = await Project.findOneAndUpdate({_id: projectId}, {
+            $pull: {
+                tasks: {
+                    id: taskId
+                }
+            }
+        })
+
+        const updatedTask = await Task.find({projectId})
+
+        socket.emit('tasksUpdate', {
+            tasks: updatedTask
+        })
+    });
 })
 
 app.use(errorMiddleware)

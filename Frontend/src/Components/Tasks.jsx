@@ -2,14 +2,13 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import socketIOClient from "socket.io-client";
+import { io } from "socket.io-client";
 
-const ENDPOINT = 'http://localhost:8000'
+const socket = io("http://localhost:8000");
 
 const Tasks = ({projectId}) => {
   const [ tasks, setTasks ] = useState([])
   const navigateTo = useNavigate();
-  const socket = socketIOClient(ENDPOINT)
 
   useEffect(()=>{
     const getTasks = async() => {
@@ -30,6 +29,12 @@ const Tasks = ({projectId}) => {
     getTasks()
   },[])
 
+  useEffect(()=>{
+    socket.on('tasksUpdate', (updatedTask) => {
+      setTasks(updatedTask.tasks);
+    })
+  })
+
   const updateTaskStatus = async(taskId, status) => {
     try {
       const { data } = await axios.put(`http://localhost:8000/api/v1/task/updateTaskStatus/${projectId}/tasks/${taskId}`, {status}, {withCredentials: true})
@@ -42,13 +47,8 @@ const Tasks = ({projectId}) => {
   }
 
   const deleteTask = async(taskId) => {
-    try {
-      const { data } = await axios.delete(`http://localhost:8000/api/v1/task/deleteTask/${projectId}/tasks/${taskId}`, {withCredentials: true})
-      toast.success(data.message)
-      navigateTo(`/projectDetail/${projectId}`)
-    } catch (error) {
-      console.log(error.response.data);
-    }
+    socket.emit('deleteTask', {projectId, taskId})
+    toast.success('Task deleted successfully!')
   }
 
   return (
