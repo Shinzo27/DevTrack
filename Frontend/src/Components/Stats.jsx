@@ -29,7 +29,7 @@ const Stats = () => {
         <div className='w-[390px] h-48 p-5 bg-white rounded-xl border-opacity-10 border border-black flex justify-around flex-col shadow-sm'>
             <div>
                 <h1 className='text-3xl font-semibold'>Project</h1>
-                <p className='text-sm text-gray-400'>All active projects</p>
+                <p className='text-sm text-gray-400'>Total number of projects</p>   
             </div>
             <div className='font-bold text-4xl'>
                 {totalProjects}

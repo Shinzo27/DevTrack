@@ -21,7 +21,6 @@ export const getProjects = async (req, res, next) => {
 
 export const createProject = async (req, res, next) => {
   const bodyParser = req.body;
-
   const parsedBody = projectParser.safeParse(bodyParser);
 
   if (parsedBody.error) {

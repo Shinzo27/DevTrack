@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { toast } from 'react-toastify'
+import { useRecoilValue } from 'recoil'
+import { authState } from '@/State/atom'
 
 const AddProject = () => {
     const [title, setTitle] = useState("")
@@ -9,10 +11,12 @@ const AddProject = () => {
     const [ startDate, setStartDate ] = useState("")
     const [ endDate, setEndDate ] = useState("")
     const navigateTo = useNavigate()
+    const auth = useRecoilValue(authState)
+    const user = auth.user;
 
     const addProject = async(e) => {
       e.preventDefault()
-      const { data } = await axios.post('http://localhost:8000/api/v1/project/createProject', {title, description, startDate, deadline: endDate, users: { id: user._id, role: 'Product Manager'}}, {withCredentials: true})
+      const { data } = await axios.post('http://localhost:8000/api/v1/project/createProject', {title, description, startDate, deadline: endDate, users: { id: user.id, role: 'Product Manager'}}, {withCredentials: true})
       if(data.success) {
         toast.success(data.message)
         navigateTo('/dashboard')

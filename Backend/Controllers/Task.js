@@ -94,7 +94,6 @@ export const updateTaskStatus = async(req,res,next) => {
 
 export const deleteTask = async(req,res,next) => {
     const { projectId, taskId } = req.params
-    console.log(req.params);
     try {
         const task = await Task.findOneAndDelete({ _id: taskId })
 

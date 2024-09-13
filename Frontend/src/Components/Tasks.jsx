@@ -78,7 +78,7 @@ const Tasks = ({projectId}) => {
               <td className="border px-4 py-2">{task.deadline}</td>
               <td className="border px-4 py-2">{task.assignedTo.name}</td>
               <td className="border px-4 py-2">
-                <button className="bg-red-500 text-white py-2 px-4 rounded" onClick={()=>deleteTask(task._id)}>Delete</button>
+                <button className="bg-red-500 text-white py-2 px-4 rounded" onClick={()=>deleteTask(task._id)} {...{ disabled: task.status === 'Done'} }>Delete</button>
               </td>
             </tr>
           ))}
